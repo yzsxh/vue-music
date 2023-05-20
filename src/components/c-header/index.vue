@@ -1,7 +1,7 @@
 <template>
   <div class="c-header">
     <span class="icon"></span>
-    <h1 class="text">Chicken Music</h1>
+    <h1 class="text">轻音乐</h1>
     <!-- <router-link class="mine" to="/user">
       <i class="icon-mine"></i>
     </router-link> -->
