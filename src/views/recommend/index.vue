@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" v-loading:[loadingText]="loading">
     <c-scroll class="recommend-content">
       <div>
         <div class="slider-wrapper">
@@ -8,11 +8,11 @@
           </div>
         </div>
         <div class="recommend-list">
-          <h1 class="list-title">热门歌单推荐</h1>
+          <h1 class="list-title" v-show="!loading">热门歌单推荐</h1>
           <ul>
             <li v-for="item in albums" class="item" :key="item.id">
               <div class="icon">
-                <img :src="item.pic" alt="" width="60" height="60" />
+                <img v-lazy="item.pic" alt="" width="60" height="60" />
               </div>
               <div class="text">
                 <h2 class="name">
@@ -30,13 +30,17 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import CSlider from '@/components/base/c-slider'
 import CScroll from '@/components/base/c-scroll'
 import { getRecommend } from '@/service/recommend'
 
 const sliders = ref([])
 const albums = ref([])
+const loadingText = ref('加载中')
+const loading = computed(() => {
+  return !sliders.value.length && !albums.value.length
+})
 
 onMounted(async () => {
   const result = await getRecommend()
